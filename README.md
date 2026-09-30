@@ -697,6 +697,10 @@ chore(docker): ajoute le healthcheck PostgreSQL
 ## 📄 Licence
 
 Projet pédagogique — usage éducatif uniquement.
+
+## Auteur
+
+AIT YOUSS OUSSAMA - YOUCODE - UM6P - YOUSSOUFIA
  
 ---
 
