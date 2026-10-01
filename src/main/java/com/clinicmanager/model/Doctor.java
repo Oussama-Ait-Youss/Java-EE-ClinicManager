@@ -23,7 +23,7 @@ public class Doctor extends User {
     private List<Availability> availabilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "doctor")
-    private List<Appointment> appointments = new ArrayList<>();
+    private List<Appointement> appointments = new ArrayList<>();
 
     public Doctor() {
         super();
