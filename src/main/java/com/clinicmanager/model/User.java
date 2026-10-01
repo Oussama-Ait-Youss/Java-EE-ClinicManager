@@ -7,35 +7,49 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table (name = "users")
-public class User {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class User {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column (name = "first_name", nullable = false, length = 255)
-    private String first_name;
+    protected String first_name;
 
     @Column (name = "last_name", nullable = false, length = 255)
-    private String last_name;
+    protected String last_name;
 
 
     @Column (name = "phone", nullable = false, length = 255)
-    private String phone;
+    protected String phone;
 
     @Column (name = "email", unique = true,nullable = false, length = 255)
-    private String email;
+    protected String email;
 
     @Enumerated (EnumType.STRING)
     @Column (name = "gender")
-    private Gender gender;
+    protected Gender gender;
 
     @Column (name = "active")
-    private boolean active;
+    protected boolean active;
 
     @Column (name = "password")
-    private String password;
+    protected String password;
 
 
+
+
+    public User() {
+    }
+
+    //constructor
+    public User(String first_name,String last_name,String email,String password,boolean active){
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
+        this.active = active;
+    }
 
 
     //getters and setters
