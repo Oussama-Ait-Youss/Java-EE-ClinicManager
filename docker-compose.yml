@@ -5,10 +5,11 @@ services:
     restart: always
     environment:
       POSTGRES_DB: clinic_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: clinic_user
+      POSTGRES_PASSWORD: clinic_password
+
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -19,7 +20,6 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # Mount the compiled WAR directly into Tomcat's webapps directory
       - ./target/clinic-manager.war:/usr/local/tomcat/webapps/ROOT.war
     depends_on:
       - postgres_db
