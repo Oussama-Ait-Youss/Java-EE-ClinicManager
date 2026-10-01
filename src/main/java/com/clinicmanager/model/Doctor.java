@@ -71,11 +71,11 @@ public class Doctor extends User {
         this.availabilities = availabilities;
     }
 
-    public List<Appointment> getAppointments() {
+    public List<Appointement> getAppointments() {
         return appointments;
     }
 
-    public void setAppointments(List<Appointment> appointments) {
+    public void setAppointments(List<Appointement> appointments) {
         this.appointments = appointments;
     }
 }
