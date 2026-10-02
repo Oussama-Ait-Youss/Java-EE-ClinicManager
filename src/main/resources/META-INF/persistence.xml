@@ -9,6 +9,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>com.clinicmanager.model.User</class>
+        <class>com.clinicmanager.model.Doctor</class>
 
         <!-- List entity classes explicitly or let Hibernate auto-discover them -->
         <properties>
