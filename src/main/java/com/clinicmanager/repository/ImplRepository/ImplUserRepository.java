@@ -1,4 +1,4 @@
-package com.clinicmanager.repository.ImplRepository.;
+package com.clinicmanager.repository.ImplRepository;
 
 import com.clinicmanager.model.User;
 import com.clinicmanager.repository.UserRepository;
@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepositoryImpl implements UserRepository {
+public class ImplUserRepository implements UserRepository {
 
     @Override
     public Optional<User> findByEmail(String email) {
