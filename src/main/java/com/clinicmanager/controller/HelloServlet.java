@@ -16,7 +16,7 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        System.out.println("-----------------------------------------");
         // 1. Process or prepare data
         String message = "Welcome to ClinicManager!";
         LocalDateTime now = LocalDateTime.now();
