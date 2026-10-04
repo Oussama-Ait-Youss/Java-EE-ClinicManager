@@ -15,6 +15,9 @@ public class Specialty {
     @OneToMany(mappedBy = "specialty")
     private List<Doctor> doctors;
 
+    public Specialty(String cardiothoracicSurgery) {
+    }
+
     // Add Getters and Setters
 
     public Long getId() {

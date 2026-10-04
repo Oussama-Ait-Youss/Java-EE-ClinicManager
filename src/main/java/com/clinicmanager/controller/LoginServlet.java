@@ -28,15 +28,30 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("currect_user",sessionDTO);
             String role = sessionDTO.getRole();
-            switch (role){
+            switch (role) {
                 case "ADMIN":
-                    response.sendRedirect("./WEB-INF/views/admin/dashboard.jsp");
+                    request.getRequestDispatcher(
+                            "/WEB-INF/views/admin/dashboard.jsp"
+                    ).forward(request, response);
+                    break;
+
                 case "STAFF":
-                    response.sendRedirect("./WEB-INF/views/staff/dashboard.jsp");
+                    request.getRequestDispatcher(
+                            "/WEB-INF/views/staff/dashboard.jsp"
+                    ).forward(request, response);
+                    break;
+
                 case "DOCTOR":
-                    response.sendRedirect("./WEB-INF/views/doctor/dashboard.jsp");
+                    request.getRequestDispatcher(
+                            "/WEB-INF/views/doctor/dashboard.jsp"
+                    ).forward(request, response);
+                    break;
+
                 case "PATIENT":
-                    response.sendRedirect("./WEB-INF/views/patient/dashboard.jsp");
+                    request.getRequestDispatcher(
+                            "/WEB-INF/views/patient/dashboard.jsp"
+                    ).forward(request, response);
+                    break;
             }
 
 
