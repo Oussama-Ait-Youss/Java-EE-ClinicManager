@@ -26,7 +26,7 @@
         <div class="alert"><c:out value="${errorMessage}"/></div>
     </c:if>
 
-    <form method="post" action="/auth/login">
+    <form method="post" action="/login">
         <label for="email">Email</label>
         <input type="email" id="email" name="email"
                value="<c:out value='${enteredEmail}'/>" required>

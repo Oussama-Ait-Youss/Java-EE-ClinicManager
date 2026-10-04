@@ -27,17 +27,28 @@ public class LoginServlet extends HttpServlet {
             UserSessionDTO sessionDTO = authService.login(dto);
             HttpSession session = request.getSession(true);
             session.setAttribute("currect_user",sessionDTO);
+            String role = sessionDTO.getRole();
+            switch (role){
+                case "ADMIN":
+                    response.sendRedirect("./WEB-INF/views/admin/dashboard.jsp");
+                case "STAFF":
+                    response.sendRedirect("./WEB-INF/views/staff/dashboard.jsp");
+                case "DOCTOR":
+                    response.sendRedirect("./WEB-INF/views/doctor/dashboard.jsp");
+                case "PATIENT":
+                    response.sendRedirect("./WEB-INF/views/patient/dashboard.jsp");
+            }
 
 
 
         }catch (Exception e){
             System.out.println(e.getMessage());
-            request.getRequestDispatcher("/auth/login.jsp").forward(request,response);
+            request.getRequestDispatcher("./WEB-INF/views/auth/login.jsp").forward(request,response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("./WEB-INF/views/auth/login.jsp").forward(req, resp);
     }
 }

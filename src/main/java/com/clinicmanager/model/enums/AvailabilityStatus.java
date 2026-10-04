@@ -2,7 +2,7 @@ package com.clinicmanager.model.enums;
 
 
 
-public enum AvialabilityStatus {
+public enum AvailabilityStatus {
     AVIALABILE,
     BUSY,
     INACTIVE
