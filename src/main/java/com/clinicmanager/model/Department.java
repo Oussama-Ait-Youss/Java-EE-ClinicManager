@@ -16,6 +16,9 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Doctor> doctors;
 
+    public Department(String cardiology, String heartAndCardiovascularSystem) {
+    }
+
     // Add Getters and Setters
 
     public Long getId() {
