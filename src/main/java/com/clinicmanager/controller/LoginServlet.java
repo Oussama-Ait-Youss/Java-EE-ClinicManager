@@ -18,52 +18,45 @@ public class LoginServlet extends HttpServlet {
     private AuthService authService = new AuthService();
 
     @Override
-    public void doPost (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        LoginRequestDTO dto = new LoginRequestDTO(email,password);
+        LoginRequestDTO dto = new LoginRequestDTO(email, password);
 
         try {
             UserSessionDTO sessionDTO = authService.login(dto);
             HttpSession session = request.getSession(true);
-            session.setAttribute("currect_user",sessionDTO);
+
+            session.setAttribute("currentUser", sessionDTO);
+
             String role = sessionDTO.getRole();
             switch (role) {
                 case "ADMIN":
-                    request.getRequestDispatcher(
-                            "/WEB-INF/views/admin/dashboard.jsp"
-                    ).forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                     break;
 
                 case "STAFF":
-                    request.getRequestDispatcher(
-                            "/WEB-INF/views/staff/dashboard.jsp"
-                    ).forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/staff/dashboard.jsp").forward(request, response);
                     break;
 
                 case "DOCTOR":
-                    request.getRequestDispatcher(
-                            "/WEB-INF/views/doctor/dashboard.jsp"
-                    ).forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/doctor/dashboard.jsp").forward(request, response);
                     break;
 
                 case "PATIENT":
-                    request.getRequestDispatcher(
-                            "/WEB-INF/views/patient/dashboard.jsp"
-                    ).forward(request, response);
+                    request.getRequestDispatcher("/WEB-INF/views/patient/dashboard.jsp").forward(request, response);
                     break;
             }
 
-
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-            request.getRequestDispatcher("./WEB-INF/views/auth/login.jsp").forward(request,response);
+        } catch (Exception e) {
+            request.setAttribute("errorMessage", e.getMessage());
+            request.setAttribute("enteredEmail", email); // Keeps the email in the input field
+            request.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("./WEB-INF/views/auth/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/auth/login.jsp").forward(req, resp);
     }
 }
