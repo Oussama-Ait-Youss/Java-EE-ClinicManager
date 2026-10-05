@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "medical_notes")
 public class MedicalNote {
+    public MedicalNote(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

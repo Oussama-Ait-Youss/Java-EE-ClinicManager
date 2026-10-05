@@ -6,6 +6,9 @@ import java.util.List;
 @Entity
 @Table(name = "doctors")
 public class Doctor extends User {
+    public Doctor(){
+
+    }
 
     @Column(unique = true)
     private String matricule;

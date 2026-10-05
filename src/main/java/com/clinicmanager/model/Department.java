@@ -16,8 +16,11 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Doctor> doctors;
 
-    public Department(String cardiology, String heartAndCardiovascularSystem) {
+    public Department(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
+    public Department(){}
 
     // Add Getters and Setters
 
