@@ -15,7 +15,10 @@ public class Specialty {
     @OneToMany(mappedBy = "specialty")
     private List<Doctor> doctors;
 
-    public Specialty(String cardiothoracicSurgery) {
+    public Specialty(String name) {
+        this.name = name;
+    }
+    public Specialty() {
     }
 
     // Add Getters and Setters

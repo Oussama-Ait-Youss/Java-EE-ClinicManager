@@ -9,6 +9,9 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "availabilities")
 public class Availability {
+    public Availability(){
+
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -34,6 +34,9 @@ public class Patient extends User {
     public String getCin() {
         return cin;
     }
+    public Patient(){
+
+    }
 
     public void setCin(String cin) {
         this.cin = cin;
