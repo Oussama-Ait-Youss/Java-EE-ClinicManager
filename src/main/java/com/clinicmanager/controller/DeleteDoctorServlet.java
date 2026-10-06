@@ -1,13 +1,16 @@
 package com.clinicmanager.controller;
 
+import java.io.IOException;
+
 import com.clinicmanager.dao.DoctorDAO;
+import com.clinicmanager.dto.UserSessionDTO;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "DeleteDoctorServlet", urlPatterns = "/admin/doctors/delete")
 public class DeleteDoctorServlet extends HttpServlet {
@@ -16,15 +19,26 @@ public class DeleteDoctorServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        UserSessionDTO currentUser = (UserSessionDTO) session.getAttribute("currentUser");
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            return;
+        }
+
         try {
             Long id = Long.parseLong(request.getParameter("id"));
             doctorDAO.delete(id);
-            request.getSession().setAttribute("successMessage", "Doctor successfully deleted.");
+            session.setAttribute("successMessage", "Doctor successfully deleted.");
         } catch (Exception e) {
-            request.getSession().setAttribute("errorMessage", e.getMessage());
+            session.setAttribute("errorMessage", e.getMessage());
         }
 
-        // Redirect back to the list
         response.sendRedirect(request.getContextPath() + "/admin/doctors");
     }
 }

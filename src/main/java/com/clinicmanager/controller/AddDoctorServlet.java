@@ -1,20 +1,23 @@
 package com.clinicmanager.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 import com.clinicmanager.dao.DoctorDAO;
+import com.clinicmanager.dto.UserSessionDTO;
 import com.clinicmanager.model.Department;
 import com.clinicmanager.model.Doctor;
 import com.clinicmanager.model.Specialty;
 import com.clinicmanager.model.enums.Gender;
 import com.clinicmanager.util.PasswordUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "AddDoctorServlet", urlPatterns = "/admin/doctors/add")
 public class AddDoctorServlet extends HttpServlet {
@@ -23,17 +26,41 @@ public class AddDoctorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        UserSessionDTO currentUser = (UserSessionDTO) session.getAttribute("currentUser");
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            return;
+        }
+
         List<Department> departments = doctorDAO.getAllDepartments();
         List<Specialty> specialties = doctorDAO.getAllSpecialties();
 
         request.setAttribute("departments", departments);
         request.setAttribute("specialties", specialties);
 
-        request.getRequestDispatcher("/WEB-INF/views/admin/add-doctor.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/admin/doctors/add-doctor.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        UserSessionDTO currentUser = (UserSessionDTO) session.getAttribute("currentUser");
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            return;
+        }
+
         try {
             Doctor doctor = new Doctor();
 
@@ -62,14 +89,14 @@ public class AddDoctorServlet extends HttpServlet {
 
             doctorDAO.save(doctor);
             request.getSession().setAttribute("successMessage", "Doctor " + doctor.getTitle() + " " + doctor.getLast_name() + " was successfully registered.");
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+            response.sendRedirect(request.getContextPath() + "/admin/doctors");
 
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
 
             request.setAttribute("departments", doctorDAO.getAllDepartments());
             request.setAttribute("specialties", doctorDAO.getAllSpecialties());
-            request.getRequestDispatcher("/WEB-INF/views/admin/add-doctor.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/doctors/add-doctor.jsp").forward(request, response);
         }
     }
 }

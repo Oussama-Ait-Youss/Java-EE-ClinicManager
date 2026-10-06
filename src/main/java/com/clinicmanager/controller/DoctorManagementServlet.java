@@ -1,17 +1,18 @@
 package com.clinicmanager.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.clinicmanager.dao.DoctorDAO;
-import com.clinicmanager.model.Doctor;
 import com.clinicmanager.dto.UserSessionDTO;
+import com.clinicmanager.model.Doctor;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "DoctorManagementServlet", urlPatterns = "/admin/doctors")
 public class DoctorManagementServlet extends HttpServlet {
@@ -34,9 +35,8 @@ public class DoctorManagementServlet extends HttpServlet {
         }
 
         List<Doctor> doctors = doctorDAO.getAllDoctors();
-        System.out.println("DEBUG: Number of doctors fetched from DB = " + doctors.size());
         request.setAttribute("doctors", doctors);
 
-        request.getRequestDispatcher("/WEB-INF/views/admin/doctors.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/admin/doctors/doctors.jsp").forward(request, response);
     }
 }
