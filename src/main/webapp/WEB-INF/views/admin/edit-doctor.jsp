@@ -3,27 +3,18 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Add Doctor - ClinicManager</title>
+    <title>Edit Doctor - ClinicManager</title>
 
-    <!-- ========================================================= -->
-    <!-- FONT -->
-    <!-- ========================================================= -->
-
+    <!-- Figtree -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <!-- ========================================================= -->
-    <!-- TAILWIND -->
-    <!-- ========================================================= -->
-
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
@@ -33,7 +24,6 @@
                     fontFamily: {
                         sans: ['Figtree', 'ui-sans-serif', 'system-ui', 'sans-serif']
                     },
-
                     colors: {
                         brand: {
                             50: '#effaf8',
@@ -49,26 +39,8 @@
         };
     </script>
 
-    <!-- ========================================================= -->
-    <!-- CUSTOM STYLE -->
-    <!-- ========================================================= -->
-
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Figtree', sans-serif;
-        }
-
-        /* Scrollbar */
-
+        /* Smooth scrollbar */
         ::-webkit-scrollbar {
             width: 7px;
         }
@@ -86,14 +58,14 @@
             background: #94a3b8;
         }
 
-        /* Form controls */
+        /* Better select appearance */
+        select {
+            cursor: pointer;
+        }
 
+        /* Inputs */
         .form-input {
-            transition:
-                    border-color 0.2s ease,
-                    box-shadow 0.2s ease,
-                    background-color 0.2s ease,
-                    transform 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .form-input:hover {
@@ -102,60 +74,12 @@
 
         .form-input:focus {
             border-color: #0d8579;
-            background-color: #ffffff;
             box-shadow: 0 0 0 3px rgba(13, 133, 121, 0.10);
-            outline: none;
         }
-
-        select.form-input {
-            cursor: pointer;
-        }
-
-        /* Sidebar links */
-
-        .sidebar-link {
-            transition:
-                    background-color 0.2s ease,
-                    color 0.2s ease,
-                    transform 0.2s ease;
-        }
-
-        .sidebar-link:hover {
-            transform: translateX(2px);
-        }
-
-        /* Main card */
-
-        .form-card {
-            box-shadow:
-                    0 1px 2px rgba(15, 23, 42, 0.03),
-                    0 10px 30px rgba(15, 23, 42, 0.04);
-        }
-
-        /* Button */
-
-        .primary-button {
-            transition:
-                    transform 0.2s ease,
-                    box-shadow 0.2s ease,
-                    background-color 0.2s ease;
-        }
-
-        .primary-button:hover {
-            transform: translateY(-1px);
-        }
-
-        .primary-button:active {
-            transform: translateY(0);
-        }
-
     </style>
-
 </head>
 
-
 <body class="bg-slate-50 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
-
 
 <!-- ========================================================= -->
 <!-- SIDEBAR -->
@@ -163,30 +87,22 @@
 
 <aside class="w-72 bg-brand-900 text-white flex flex-col justify-between relative z-20 shadow-2xl shrink-0">
 
-    <!-- TOP -->
-
     <div>
 
         <!-- LOGO -->
-
         <div class="h-24 flex items-center px-8">
-
             <div class="flex items-center gap-3">
 
                 <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-brand-700 shadow-sm">
-
                     <svg class="h-6 w-6"
                          fill="none"
                          stroke="currentColor"
                          stroke-width="2.5"
                          viewBox="0 0 24 24">
-
                         <path stroke-linecap="round"
                               stroke-linejoin="round"
                               d="M12 5v14M5 12h14"/>
-
                     </svg>
-
                 </span>
 
                 <span class="text-xl font-bold tracking-tight">
@@ -194,75 +110,59 @@
                 </span>
 
             </div>
-
         </div>
 
-
         <!-- NAVIGATION -->
-
         <nav class="px-5 space-y-2 mt-4">
 
-
-            <!-- DASHBOARD -->
-
+            <!-- Dashboard -->
             <a href="${pageContext.request.contextPath}/admin/dashboard"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5">
+               class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5 transition-all">
 
-                <svg class="h-5 w-5 shrink-0"
+                <svg class="h-5 w-5"
                      fill="none"
                      stroke="currentColor"
                      stroke-width="2"
                      viewBox="0 0 24 24">
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6z
                              M14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z
                              M4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z
                              M14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-
                 </svg>
 
-                <span>Dashboard Overview</span>
-
+                Dashboard Overview
             </a>
 
-
-            <!-- DOCTORS ACTIVE -->
-
+            <!-- Doctors ACTIVE -->
             <a href="${pageContext.request.contextPath}/admin/doctors"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 font-semibold text-white shadow-sm">
+               class="flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-semibold text-white shadow-sm">
 
-                <svg class="h-5 w-5 shrink-0"
+                <svg class="h-5 w-5"
                      fill="none"
                      stroke="currentColor"
                      stroke-width="2"
                      viewBox="0 0 24 24">
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804
                              M15 10a3 3 0 11-6 0 3 3 0 016 0
                              m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-
                 </svg>
 
-                <span>Manage Doctors</span>
-
+                Manage Doctors
             </a>
 
-
-            <!-- STAFF -->
-
+            <!-- Staff -->
             <a href="${pageContext.request.contextPath}/admin/staff"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5">
+               class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5 transition-all">
 
-                <svg class="h-5 w-5 shrink-0"
+                <svg class="h-5 w-5"
                      fill="none"
                      stroke="currentColor"
                      stroke-width="2"
                      viewBox="0 0 24 24">
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M17 20h5v-2a3 3 0 00-5.356-1.857
@@ -274,52 +174,41 @@
                              M15 7a3 3 0 11-6 0 3 3 0 016 0
                              m6 3a2 2 0 11-4 0 2 2 0 014 0
                              M7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-
                 </svg>
 
-                <span>Manage Staff</span>
-
+                Manage Staff
             </a>
 
-
-            <!-- PATIENTS -->
-
+            <!-- Patients -->
             <a href="${pageContext.request.contextPath}/admin/patients"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5">
+               class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5 transition-all">
 
-                <svg class="h-5 w-5 shrink-0"
+                <svg class="h-5 w-5"
                      fill="none"
                      stroke="currentColor"
                      stroke-width="2"
                      viewBox="0 0 24 24">
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
-                          d="M19 11H5
-                             m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2
                              m14 0V9a2 2 0 00-2-2
                              M5 11V9a2 2 0 002-2
                              m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2
                              M7 7h10"/>
-
                 </svg>
 
-                <span>Manage Patients</span>
-
+                Manage Patients
             </a>
 
-
-            <!-- SETTINGS -->
-
+            <!-- Settings -->
             <a href="${pageContext.request.contextPath}/admin/settings"
-               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5">
+               class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-white/70 hover:text-white hover:bg-white/5 transition-all">
 
-                <svg class="h-5 w-5 shrink-0"
+                <svg class="h-5 w-5"
                      fill="none"
                      stroke="currentColor"
                      stroke-width="2"
                      viewBox="0 0 24 24">
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0
@@ -338,27 +227,19 @@
                              a1.724 1.724 0 001.066-2.573
                              c-.94-1.543.826-3.31 2.37-2.37
                              .996.608 2.296.07 2.572-1.065z"/>
-
                     <path stroke-linecap="round"
                           stroke-linejoin="round"
                           d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-
                 </svg>
 
-                <span>System Settings</span>
-
+                System Settings
             </a>
 
         </nav>
-
     </div>
 
-
-    <!-- ========================================================= -->
     <!-- LOGOUT -->
-    <!-- ========================================================= -->
-
-    <div class="p-6 mb-2">
+    <div class="relative z-10 p-6 mb-2">
 
         <a href="${pageContext.request.contextPath}/logout"
            class="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl font-semibold bg-white/10 text-white/90 hover:bg-red-500 hover:text-white transition-all">
@@ -368,24 +249,17 @@
                  stroke="currentColor"
                  stroke-width="2"
                  viewBox="0 0 24 24">
-
                 <path stroke-linecap="round"
                       stroke-linejoin="round"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7
-                         m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7
-                         a3 3 0 013-3h4a3 3 0 013 3v1"/>
-
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
 
             Sign out
-
         </a>
 
         <p class="text-center text-xs text-white/40 mt-5">
             Developed by
-            <span class="font-bold text-white/70">
-                Ait Youss Oussama
-            </span>
+            <span class="font-bold text-white/70">Ait Youss Oussama</span>
         </p>
 
     </div>
@@ -394,37 +268,29 @@
 
 
 <!-- ========================================================= -->
-<!-- MAIN -->
+<!-- MAIN CONTENT -->
 <!-- ========================================================= -->
 
 <main class="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-50/50">
 
-
-    <!-- ========================================================= -->
     <!-- HEADER -->
-    <!-- ========================================================= -->
-
     <header class="h-24 min-h-[96px] bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-10 sticky top-0 z-10">
 
         <div>
-
             <div class="flex items-center gap-3">
-
                 <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
-                    Register Medical Staff
+                    Edit Doctor Profile
                 </h1>
 
             </div>
 
-            <p class="text-sm text-slate-500 mt-1">
-                Create a new doctor account and assign their specialty.
+            <p class="text-sm text-slate-500 mt-1 ml-12">
+                Modify the professional and personal information of Dr. ${doctor.last_name}
             </p>
-
         </div>
 
 
         <!-- CURRENT USER -->
-
         <div class="flex items-center gap-4">
 
             <div class="text-right">
@@ -441,9 +307,7 @@
             </div>
 
             <div class="h-12 w-12 bg-brand-50 text-brand-700 rounded-2xl flex items-center justify-center font-bold text-lg border border-brand-100 shadow-sm">
-
                 ${sessionScope.currentUser.first_name.substring(0,1).toUpperCase()}${sessionScope.currentUser.last_name.substring(0,1).toUpperCase()}
-
             </div>
 
         </div>
@@ -451,18 +315,11 @@
     </header>
 
 
-    <!-- ========================================================= -->
     <!-- PAGE CONTENT -->
-    <!-- ========================================================= -->
-
     <div class="p-6 md:p-10 max-w-6xl mx-auto w-full">
 
-
-        <!-- ===================================================== -->
         <!-- ERROR -->
-        <!-- ===================================================== -->
-
-        <c:if test="${not empty errorMessage}">
+        <c:if test="${not empty sessionScope.errorMessage}">
 
             <div role="alert"
                  class="mb-8 flex items-start gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-700 shadow-sm">
@@ -474,48 +331,37 @@
                          stroke="currentColor"
                          stroke-width="2"
                          viewBox="0 0 24 24">
-
                         <path stroke-linecap="round"
                               stroke-linejoin="round"
                               d="M12 9v4m0 4h.01
-                                 M10.29 3.86L1.82 18a2 2 0 001.71 3
-                                 h16.94a2 2 0 001.71-3L13.71 3.86
-                                 a2 2 0 00-3.42 0z"/>
-
+                                 M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
                     </svg>
 
                 </div>
 
                 <div>
-
-                    <p class="font-bold">
-                        Error
-                    </p>
-
+                    <p class="font-bold">Error</p>
                     <p class="mt-0.5">
-                        <c:out value="${errorMessage}"/>
+                        <c:out value="${sessionScope.errorMessage}"/>
                     </p>
-
                 </div>
 
             </div>
 
+            <c:remove var="errorMessage" scope="session"/>
+
         </c:if>
 
 
-        <!-- ===================================================== -->
         <!-- FORM -->
-        <!-- ===================================================== -->
-
-        <form action="${pageContext.request.contextPath}/admin/doctors/add"
+        <form action="${pageContext.request.contextPath}/admin/doctors/edit"
               method="POST"
-              class="form-card bg-white rounded-3xl border border-slate-200 overflow-hidden">
+              class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+
+            <input type="hidden" name="id" value="${doctor.id}">
 
 
-            <!-- ================================================= -->
             <!-- FORM HEADER -->
-            <!-- ================================================= -->
-
             <div class="px-8 py-7 border-b border-slate-100 bg-gradient-to-r from-white to-brand-50/30">
 
                 <div class="flex items-center gap-4">
@@ -527,12 +373,11 @@
                              stroke="currentColor"
                              stroke-width="1.8"
                              viewBox="0 0 24 24">
-
                             <path stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  d="M12 5v14
-                                     M5 12h14"/>
-
+                                  d="M15.232 5.232l3.536 3.536
+                                     m-2.036-5.036a2.5 2.5 0 113.536 3.536
+                                     L6.5 21.036H3v-3.572L16.732 3.732z"/>
                         </svg>
 
                     </div>
@@ -544,7 +389,7 @@
                         </h2>
 
                         <p class="text-sm text-slate-500 mt-1">
-                            Enter the professional information of the new doctor.
+                            Update the doctor's professional information and account details.
                         </p>
 
                     </div>
@@ -554,10 +399,7 @@
             </div>
 
 
-            <!-- ================================================= -->
             <!-- FORM BODY -->
-            <!-- ================================================= -->
-
             <div class="p-8 md:p-10">
 
 
@@ -576,24 +418,14 @@
                                  stroke="currentColor"
                                  stroke-width="2"
                                  viewBox="0 0 24 24">
-
                                 <path stroke-linecap="round"
                                       stroke-linejoin="round"
-                                      d="M9 12h6
-                                         m-6 4h6
-                                         m2 5H7a2 2 0 01-2-2V5
-                                         a2 2 0 012-2h5.586
-                                         a1 1 0 01.707.293
-                                         l5.414 5.414
-                                         a1 1 0 01.293.707V19
-                                         a2 2 0 01-2 2z"/>
-
+                                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
 
                         </div>
 
                         <div>
-
                             <h3 class="font-bold text-slate-800">
                                 Professional Information
                             </h3>
@@ -601,7 +433,6 @@
                             <p class="text-sm text-slate-500">
                                 Information related to the doctor's medical profile.
                             </p>
-
                         </div>
 
                     </div>
@@ -611,80 +442,74 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-
-                    <!-- MATRICULE -->
-
+                    <!-- Matricule -->
                     <div>
-
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
                             Matricule
                         </label>
 
                         <input type="text"
                                name="matricule"
-                               placeholder="e.g. DOC-002"
+                               value="${doctor.matricule}"
                                required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
-
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none"
+                               placeholder="Doctor matricule">
                     </div>
 
 
-                    <!-- TITLE -->
+                    <!-- Title + Department -->
+                    <div class="grid grid-cols-3 gap-4">
 
-                    <div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Title
+                            </label>
 
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">
-                            Title
-                        </label>
+                            <select name="title"
+                                    required
+                                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
 
-                        <select name="title"
-                                required
-                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
-
-                            <option value="Dr.">
-                                Dr.
-                            </option>
-
-                            <option value="Pr.">
-                                Pr.
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- DEPARTMENT -->
-
-                    <div>
-
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">
-                            Department
-                        </label>
-
-                        <select name="department_id"
-                                required
-                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
-
-                            <option value="" disabled selected>
-                                Select Department
-                            </option>
-
-                            <c:forEach var="dept" items="${departments}">
-
-                                <option value="${dept.id}">
-                                        ${dept.name}
+                                <option value="Dr." <c:if test="${doctor.title == 'Dr.'}">selected</c:if>>
+                                    Dr.
                                 </option>
 
-                            </c:forEach>
+                                <option value="Pr." <c:if test="${doctor.title == 'Pr.'}">selected</c:if>>
+                                    Pr.
+                                </option>
 
-                        </select>
+                            </select>
+                        </div>
+
+
+                        <div class="col-span-2">
+
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Department
+                            </label>
+
+                            <select name="department_id"
+                                    required
+                                    class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
+
+                                <c:forEach var="dept" items="${departments}">
+
+                                    <option value="${dept.id}"
+                                            <c:if test="${dept.id == doctor.department.id}">
+                                                selected
+                                            </c:if>>
+                                            ${dept.name}
+                                    </option>
+
+                                </c:forEach>
+
+                            </select>
+
+                        </div>
 
                     </div>
 
 
-                    <!-- SPECIALTY -->
-
+                    <!-- Specialty -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -693,15 +518,14 @@
 
                         <select name="specialty_id"
                                 required
-                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
-
-                            <option value="" disabled selected>
-                                Select Specialty
-                            </option>
+                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
 
                             <c:forEach var="spec" items="${specialties}">
 
-                                <option value="${spec.id}">
+                                <option value="${spec.id}"
+                                        <c:if test="${spec.id == doctor.specialty.id}">
+                                            selected
+                                        </c:if>>
                                         ${spec.name}
                                 </option>
 
@@ -711,13 +535,36 @@
 
                     </div>
 
+
+                    <!-- Account Status -->
+                    <div>
+
+                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                            Account Status
+                        </label>
+
+                        <select name="active"
+                                required
+                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
+
+                            <option value="true"
+                                    <c:if test="${doctor.active}">selected</c:if>>
+                                Active
+                            </option>
+
+                            <option value="false"
+                                    <c:if test="${!doctor.active}">selected</c:if>>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
                 </div>
 
 
-                <!-- ================================================= -->
                 <!-- SEPARATOR -->
-                <!-- ================================================= -->
-
                 <div class="my-10 border-t border-slate-100"></div>
 
 
@@ -736,14 +583,10 @@
                                  stroke="currentColor"
                                  stroke-width="2"
                                  viewBox="0 0 24 24">
-
                                 <path stroke-linecap="round"
                                       stroke-linejoin="round"
-                                      d="M16 7a4 4 0 11-8 0
-                                         4 4 0 018 0z
-                                         M12 14a7 7 0 00-7 7
-                                         h14a7 7 0 00-7-7z"/>
-
+                                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0z
+                                         M12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
 
                         </div>
@@ -755,7 +598,7 @@
                             </h3>
 
                             <p class="text-sm text-slate-500">
-                                Enter the doctor's personal and login information.
+                                Update the doctor's personal and login information.
                             </p>
 
                         </div>
@@ -767,9 +610,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-
-                    <!-- FIRST NAME -->
-
+                    <!-- First Name -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -778,15 +619,15 @@
 
                         <input type="text"
                                name="first_name"
-                               placeholder="First name"
+                               value="${doctor.first_name}"
                                required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none"
+                               placeholder="First name">
 
                     </div>
 
 
-                    <!-- LAST NAME -->
-
+                    <!-- Last Name -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -795,15 +636,15 @@
 
                         <input type="text"
                                name="last_name"
-                               placeholder="Last name"
+                               value="${doctor.last_name}"
                                required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none"
+                               placeholder="Last name">
 
                     </div>
 
 
-                    <!-- GENDER -->
-
+                    <!-- Gender -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -812,13 +653,15 @@
 
                         <select name="gender"
                                 required
-                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                                class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
 
-                            <option value="MALE">
+                            <option value="MALE"
+                                    <c:if test="${doctor.gender == 'MALE'}">selected</c:if>>
                                 Male
                             </option>
 
-                            <option value="FEMALE">
+                            <option value="FEMALE"
+                                    <c:if test="${doctor.gender == 'FEMALE'}">selected</c:if>>
                                 Female
                             </option>
 
@@ -827,8 +670,7 @@
                     </div>
 
 
-                    <!-- PHONE -->
-
+                    <!-- Phone -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -837,15 +679,15 @@
 
                         <input type="tel"
                                name="phone"
-                               placeholder="+212 6 XX XX XX XX"
+                               value="${doctor.phone}"
                                required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none"
+                               placeholder="+212 6 XX XX XX XX">
 
                     </div>
 
 
-                    <!-- EMAIL -->
-
+                    <!-- Email -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
@@ -854,29 +696,34 @@
 
                         <input type="email"
                                name="email"
-                               placeholder="doctor@example.com"
+                               value="${doctor.email}"
                                required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none"
+                               placeholder="doctor@example.com">
 
                     </div>
 
 
-                    <!-- PASSWORD -->
-
+                    <!-- Password -->
                     <div>
 
                         <label class="block text-sm font-semibold text-slate-700 mb-2">
-                            Temporary Password
+
+                            Change Password
+
+                            <span class="text-slate-400 font-normal">
+                                (optional)
+                            </span>
+
                         </label>
 
                         <input type="password"
                                name="password"
-                               placeholder="Enter temporary password"
-                               required
-                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50">
+                               placeholder="Leave blank to keep current"
+                               class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white outline-none">
 
                         <p class="text-xs text-slate-400 mt-2">
-                            The doctor can change this password later.
+                            Only fill this field if you want to change the password.
                         </p>
 
                     </div>
@@ -890,9 +737,6 @@
 
                 <div class="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 mt-10 pt-7 border-t border-slate-100">
 
-
-                    <!-- CANCEL -->
-
                     <a href="${pageContext.request.contextPath}/admin/doctors"
                        class="w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-all text-center">
 
@@ -901,10 +745,8 @@
                     </a>
 
 
-                    <!-- SUBMIT -->
-
                     <button type="submit"
-                            class="primary-button w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/35">
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 hover:shadow-brand-600/35 transition-all">
 
                         <svg class="w-5 h-5"
                              fill="none"
@@ -914,12 +756,11 @@
 
                             <path stroke-linecap="round"
                                   stroke-linejoin="round"
-                                  d="M12 5v14
-                                     M5 12h14"/>
+                                  d="M5 13l4 4L19 7"/>
 
                         </svg>
 
-                        Register Doctor
+                        Save Changes
 
                     </button>
 

@@ -22,7 +22,6 @@ public class DoctorManagementServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        // Security Check
         if (session == null || session.getAttribute("currentUser") == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
@@ -34,8 +33,8 @@ public class DoctorManagementServlet extends HttpServlet {
             return;
         }
 
-        // Fetch doctors and forward to view
         List<Doctor> doctors = doctorDAO.getAllDoctors();
+        System.out.println("DEBUG: Number of doctors fetched from DB = " + doctors.size());
         request.setAttribute("doctors", doctors);
 
         request.getRequestDispatcher("/WEB-INF/views/admin/doctors.jsp").forward(request, response);

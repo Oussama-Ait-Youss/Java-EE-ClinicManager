@@ -23,11 +23,9 @@ public class AddDoctorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Fetch the lists from the database
         List<Department> departments = doctorDAO.getAllDepartments();
         List<Specialty> specialties = doctorDAO.getAllSpecialties();
 
-        // Attach them to the request
         request.setAttribute("departments", departments);
         request.setAttribute("specialties", specialties);
 
@@ -45,11 +43,10 @@ public class AddDoctorServlet extends HttpServlet {
             doctor.setPhone(request.getParameter("phone"));
             doctor.setGender(Gender.valueOf(request.getParameter("gender").toUpperCase()));
 
-            // 2. Doctor Specific Info
             doctor.setMatricule(request.getParameter("matricule"));
             doctor.setTitle(request.getParameter("title")); // e.g., Dr., Pr.
 
-            // 3. Foreign Key Relationships
+
             Long deptId = Long.parseLong(request.getParameter("department_id"));
             Long specId = Long.parseLong(request.getParameter("specialty_id"));
 
@@ -59,19 +56,17 @@ public class AddDoctorServlet extends HttpServlet {
             doctor.setDepartment(dept);
             doctor.setSpecialty(spec);
 
-            // 4. Security
             String rawPassword = request.getParameter("password");
             doctor.setPassword(PasswordUtil.hashPassword(Optional.of(rawPassword)));
             doctor.setActive(true);
 
-            // 5. Save and Redirect
             doctorDAO.save(doctor);
             request.getSession().setAttribute("successMessage", "Doctor " + doctor.getTitle() + " " + doctor.getLast_name() + " was successfully registered.");
             response.sendRedirect(request.getContextPath() + "/admin/dashboard");
 
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
-            // If we fail, we must reload the dropdown data before returning to the form
+
             request.setAttribute("departments", doctorDAO.getAllDepartments());
             request.setAttribute("specialties", doctorDAO.getAllSpecialties());
             request.getRequestDispatcher("/WEB-INF/views/admin/add-doctor.jsp").forward(request, response);
