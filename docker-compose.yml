@@ -7,22 +7,29 @@ services:
       POSTGRES_DB: clinic_db
       POSTGRES_USER: clinic_user
       POSTGRES_PASSWORD: clinic_password
-
     ports:
       - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clinic_user -d clinic_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   tomcat:
-    image: tomcat:10.1-jdk17
+    build: .
     container_name: clinic_tomcat
     restart: always
+    environment:
+      DB_URL: jdbc:postgresql://postgres_db:5432/clinic_db
+      DB_USER: clinic_user
+      DB_PASSWORD: clinic_password
     ports:
-      - "8080:8080"
-    volumes:
-      - ./target/clinic-manager.war:/usr/local/tomcat/webapps/ROOT.war
+      - "8081:8080"
     depends_on:
-      - postgres_db
+      postgres_db:
+        condition: service_healthy
 
 volumes:
   pgdata:

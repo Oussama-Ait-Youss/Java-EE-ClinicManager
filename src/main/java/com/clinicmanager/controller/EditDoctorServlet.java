@@ -1,19 +1,20 @@
 package com.clinicmanager.controller;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import com.clinicmanager.dao.DoctorDAO;
-import com.clinicmanager.model.Department;
+import com.clinicmanager.dto.UserSessionDTO;
 import com.clinicmanager.model.Doctor;
-import com.clinicmanager.model.Specialty;
 import com.clinicmanager.model.enums.Gender;
 import com.clinicmanager.util.PasswordUtil;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.Optional;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(name = "EditDoctorServlet", urlPatterns = "/admin/doctors/edit")
 public class EditDoctorServlet extends HttpServlet {
@@ -22,6 +23,18 @@ public class EditDoctorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        UserSessionDTO currentUser = (UserSessionDTO) session.getAttribute("currentUser");
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            return;
+        }
+
         try {
             Long id = Long.parseLong(request.getParameter("id"));
             Doctor doctor = doctorDAO.getDoctorById(id);
@@ -36,7 +49,7 @@ public class EditDoctorServlet extends HttpServlet {
             request.setAttribute("departments", doctorDAO.getAllDepartments());
             request.setAttribute("specialties", doctorDAO.getAllSpecialties());
 
-            request.getRequestDispatcher("/WEB-INF/views/admin/edit-doctor.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/admin/doctors/edit-doctor.jsp").forward(request, response);
 
         } catch (Exception e) {
             response.sendRedirect(request.getContextPath() + "/admin/doctors");
@@ -45,6 +58,18 @@ public class EditDoctorServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("currentUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+
+        UserSessionDTO currentUser = (UserSessionDTO) session.getAttribute("currentUser");
+        if (!"ADMIN".equals(currentUser.getRole())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+            return;
+        }
+
         Long id = Long.parseLong(request.getParameter("id"));
 
         try {
