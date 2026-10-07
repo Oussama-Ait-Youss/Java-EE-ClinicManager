@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.appointment;
 
 import com.clinicmanager.dao.AppointmentDAO;
 import com.clinicmanager.dao.DoctorDAO;

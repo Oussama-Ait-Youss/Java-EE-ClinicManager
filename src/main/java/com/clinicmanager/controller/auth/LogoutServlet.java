@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.auth;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

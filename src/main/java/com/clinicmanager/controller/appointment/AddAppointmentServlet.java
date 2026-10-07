@@ -1,10 +1,11 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.appointment;
 
 import com.clinicmanager.dao.AppointmentDAO;
 import com.clinicmanager.dao.DoctorDAO;
 import com.clinicmanager.dao.PatientDAO;
 import com.clinicmanager.model.Appointment;
 import com.clinicmanager.model.enums.AppointmentStatus;
+import com.clinicmanager.model.enums.AppointmentType; // ADDED IMPORT
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,8 +42,11 @@ public class AddAppointmentServlet extends HttpServlet {
             LocalTime time = LocalTime.parse(request.getParameter("appointment_time"));
             appt.setAppointmentDateTime(LocalDateTime.of(date, time));
 
-            // Parse Enum and map 'notes' to 'motif'
+            // Parse Enums for Status AND Type
             appt.setStatus(AppointmentStatus.valueOf(request.getParameter("status").toUpperCase()));
+            appt.setType(AppointmentType.valueOf(request.getParameter("type").toUpperCase())); // ADDED TYPE PARSING
+
+            // Map 'notes' to 'motif'
             appt.setMotif(request.getParameter("notes"));
 
             appointmentDAO.save(appt);

@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.admin;
 
 import com.clinicmanager.dao.DashboardDAO;
 import com.clinicmanager.dto.UserSessionDTO;
