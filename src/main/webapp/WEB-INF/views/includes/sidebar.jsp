@@ -120,6 +120,14 @@
 
                 <span>Manage Patients</span>
             </a>
+            <%--            appointments--%>
+            <a href="${pageContext.request.contextPath}/admin/appointments"
+               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${activeLink == 'appointments' ? 'bg-white/10 text-white font-semibold' : 'text-white/70 hover:text-white hover:bg-white/5'}">
+                <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M4 11h16M5 21h14a1 1 0 001-1V7a1 1 0 00-1-1H5a1 1 0 00-1 1v13a1 1 0 001 1z"/>
+                </svg>
+                <span>Appointments</span>
+            </a>
         </nav>
 
     </div>

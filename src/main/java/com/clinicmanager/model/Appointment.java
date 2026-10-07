@@ -3,7 +3,10 @@ package com.clinicmanager.model;
 import com.clinicmanager.model.enums.AppointmentStatus;
 import com.clinicmanager.model.enums.AppointmentType;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "appointments")
@@ -101,5 +104,17 @@ public class Appointment {
 
     public void setMedicalNote(MedicalNote medicalNote) {
         this.medicalNote = medicalNote;
+    }
+    public LocalDate getAppointmentDate() {
+        return appointmentDateTime != null ? appointmentDateTime.toLocalDate() : null;
+    }
+
+    public LocalTime getAppointmentTime() {
+        return appointmentDateTime != null ? appointmentDateTime.toLocalTime() : null;
+    }
+
+    // Maps the JSP asking for "notes" to your database column "motif"
+    public String getNotes() {
+        return this.motif;
     }
 }
