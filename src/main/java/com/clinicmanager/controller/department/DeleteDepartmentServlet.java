@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.department;
 
 import com.clinicmanager.dao.DepartmentDAO;
 import jakarta.servlet.ServletException;

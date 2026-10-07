@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.doctor;
 
 import java.io.IOException;
 

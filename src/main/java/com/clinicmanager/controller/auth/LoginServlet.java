@@ -1,4 +1,4 @@
-package com.clinicmanager.controller;
+package com.clinicmanager.controller.auth;
 
 import com.clinicmanager.dto.LoginRequestDTO;
 import com.clinicmanager.dto.UserSessionDTO;

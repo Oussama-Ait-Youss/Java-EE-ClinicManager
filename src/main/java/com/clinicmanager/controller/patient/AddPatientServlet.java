@@ -1,4 +1,4 @@
-package com.clinicmanager.controller.patients;
+package com.clinicmanager.controller.patient;
 
 import com.clinicmanager.dao.PatientDAO;
 import com.clinicmanager.model.Patient;
