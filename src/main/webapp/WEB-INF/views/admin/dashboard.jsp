@@ -91,12 +91,35 @@
         </div>
 
         <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white">
+            <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white relative">
                 <h2 class="text-lg font-bold text-slate-800 tracking-tight">Quick User Management</h2>
-                <a href="${pageContext.request.contextPath}/admin/doctors/add" class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-brand-600/25 transition-all flex items-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                    Add New User
-                </a>
+
+                <!-- START OF ADDED DROPDOWN CODE -->
+                <div class="relative">
+                    <button onclick="document.getElementById('addUserDropdown').classList.toggle('hidden')"
+                            class="bg-brand-600 hover:bg-brand-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-lg shadow-brand-600/25 transition-all flex items-center gap-2 outline-none">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        Add New User
+                        <svg class="w-4 h-4 ml-1 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+
+                    <div id="addUserDropdown" class="hidden absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 p-2 z-50">
+                        <a href="${pageContext.request.contextPath}/admin/doctors/add" class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 rounded-lg hover:bg-brand-50 hover:text-brand-700 transition-colors">
+                            <div class="w-2 h-2 rounded-full bg-brand-500"></div>
+                            Register Doctor
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/staff/add" class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 rounded-lg hover:bg-amber-50 hover:text-amber-700 transition-colors">
+                            <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                            Register Staff
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/patients/add" class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold text-slate-600 rounded-lg hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                            Register Patient
+                        </a>
+                    </div>
+                </div>
+                <!-- END OF ADDED DROPDOWN CODE -->
+
             </div>
 
             <div class="overflow-x-auto">
@@ -110,33 +133,45 @@
                     </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-slate-100 bg-white">
-                        <tr class="hover:bg-slate-50 transition-colors group">
-                            <td class="px-8 py-5">
-                                <div class="flex items-center gap-3">
-                                    <div class="h-9 w-9 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-xs">JD</div>
-                                    <span class="font-semibold text-slate-800">John Doe</span>
-                                </div>
-                            </td>
-                            <td class="px-8 py-5 text-slate-500 font-medium">Doctor</td>
-                            <td class="px-8 py-5">
+                    <tr class="hover:bg-slate-50 transition-colors group">
+                        <td class="px-8 py-5">
+                            <div class="flex items-center gap-3">
+                                <div class="h-9 w-9 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600 text-xs">JD</div>
+                                <span class="font-semibold text-slate-800">John Doe</span>
+                            </div>
+                        </td>
+                        <td class="px-8 py-5 text-slate-500 font-medium">Doctor</td>
+                        <td class="px-8 py-5">
                                 <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100">
                                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
                                     Active
                                 </span>
-                            </td>
-                            <td class="px-8 py-5 text-right">
-                                <div class="flex items-center justify-end gap-3 opacity-80">
-                                    <a href="${pageContext.request.contextPath}/admin/doctors/edit?id=1" class="text-slate-400 hover:text-brand-600 transition" title="Edit">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                        </td>
+                        <td class="px-8 py-5 text-right">
+                            <div class="flex items-center justify-end gap-3 opacity-80">
+                                <a href="${pageContext.request.contextPath}/admin/doctors/edit?id=1" class="text-slate-400 hover:text-brand-600 transition" title="Edit">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </main>
+
+<!-- SCRIPT TO CLOSE DROPDOWN WHEN CLICKING OUTSIDE -->
+<script>
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('addUserDropdown');
+        const button = dropdown.previousElementSibling;
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script>
+
 </body>
 </html>
