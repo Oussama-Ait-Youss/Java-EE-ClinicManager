@@ -110,6 +110,16 @@
                 </svg>
                 <span>Manage Departments</span>
             </a>
+            <%-- Manage Patients --%>
+            <a href="${pageContext.request.contextPath}/admin/patients"
+               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${activeLink == 'patients' ? 'bg-white/10 text-white font-semibold' : 'text-white/70 hover:text-white hover:bg-white/5'}">
+
+                <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+
+                <span>Manage Patients</span>
+            </a>
         </nav>
 
     </div>
