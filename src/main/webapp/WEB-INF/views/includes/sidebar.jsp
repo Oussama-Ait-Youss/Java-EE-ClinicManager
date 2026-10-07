@@ -102,6 +102,14 @@
 
                 <span>Manage Doctors</span>
             </a>
+            <%--    Manage departments        --%>
+            <a href="${pageContext.request.contextPath}/admin/departments"
+               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${activeLink == 'departments' ? 'bg-white/10 text-white font-semibold' : 'text-white/70 hover:text-white hover:bg-white/5'}">
+                <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+                <span>Manage Departments</span>
+            </a>
         </nav>
 
     </div>
