@@ -1,7 +1,7 @@
 package com.clinicmanager.controller.department;
 
-import com.clinicmanager.dao.DepartmentDAO;
 import com.clinicmanager.model.Department;
+import com.clinicmanager.service.DepartmentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet(name = "AddDepartmentServlet", urlPatterns = "/admin/departments/add")
 public class AddDepartmentServlet extends HttpServlet {
-    private final DepartmentDAO departmentDAO = new DepartmentDAO();
+    private final DepartmentService departmentService = new DepartmentService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,7 +25,7 @@ public class AddDepartmentServlet extends HttpServlet {
             dept.setName(request.getParameter("name"));
             dept.setDescription(request.getParameter("description"));
 
-            departmentDAO.save(dept);
+            departmentService.save(dept);
             request.getSession().setAttribute("successMessage", "Department created successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/departments");
         } catch (Exception e) {

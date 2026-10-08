@@ -1,6 +1,6 @@
 package com.clinicmanager.controller.appointment;
 
-import com.clinicmanager.dao.AppointmentDAO;
+import com.clinicmanager.service.AppointmentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet(name = "AppointmentManagementServlet", urlPatterns = "/admin/appointments")
 public class AppointmentManagementServlet extends HttpServlet {
-    private final AppointmentDAO appointmentDAO = new AppointmentDAO();
+    private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -19,11 +19,11 @@ public class AppointmentManagementServlet extends HttpServlet {
         // If the eye icon was clicked, patientId will be in the URL. We filter the list.
         if (patientIdParam != null && !patientIdParam.isEmpty()) {
             Long patientId = Long.parseLong(patientIdParam);
-            request.setAttribute("appointments", appointmentDAO.getAppointmentsByPatientId(patientId));
+            request.setAttribute("appointments", appointmentService.getAppointmentsByPatientId(patientId));
             request.setAttribute("isFiltered", true);
         } else {
             // Otherwise, show all appointments
-            request.setAttribute("appointments", appointmentDAO.getAllAppointments());
+            request.setAttribute("appointments", appointmentService.getAllAppointments());
             request.setAttribute("isFiltered", false);
         }
 

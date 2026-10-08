@@ -3,7 +3,7 @@ package com.clinicmanager.model.enums;
 
 
 public enum AvailabilityStatus {
-    AVIALABILE,
+    AVAILABLE,
     BUSY,
     INACTIVE
 }

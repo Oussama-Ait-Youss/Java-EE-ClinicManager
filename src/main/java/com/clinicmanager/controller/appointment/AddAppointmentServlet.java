@@ -1,8 +1,8 @@
 package com.clinicmanager.controller.appointment;
 
-import com.clinicmanager.dao.AppointmentDAO;
-import com.clinicmanager.dao.DoctorDAO;
-import com.clinicmanager.dao.PatientDAO;
+import com.clinicmanager.service.AppointmentService;
+import com.clinicmanager.service.DoctorService;
+import com.clinicmanager.service.PatientService;
 import com.clinicmanager.model.Appointment;
 import com.clinicmanager.model.enums.AppointmentStatus;
 import com.clinicmanager.model.enums.AppointmentType; // ADDED IMPORT
@@ -19,41 +19,46 @@ import java.time.LocalTime;
 
 @WebServlet(name = "AddAppointmentServlet", urlPatterns = "/admin/appointments/add")
 public class AddAppointmentServlet extends HttpServlet {
-    private final AppointmentDAO appointmentDAO = new AppointmentDAO();
-    private final DoctorDAO doctorDAO = new DoctorDAO();
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final AppointmentService appointmentService = new AppointmentService();
+    private final DoctorService doctorService = new DoctorService();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("doctors", doctorDAO.getAllDoctors());
-        request.setAttribute("patients", patientDAO.getAllPatients());
+        request.setAttribute("doctors", doctorService.getAllDoctors());
+        request.setAttribute("patients", patientService.getAllPatients());
         request.getRequestDispatcher("/WEB-INF/views/admin/appointments/add-appointment.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Appointment appt = new Appointment();
-            appt.setPatient(patientDAO.getPatientById(Long.parseLong(request.getParameter("patient_id"))));
-            appt.setDoctor(doctorDAO.getDoctorById(Long.parseLong(request.getParameter("doctor_id"))));
-
-            // Combine HTML Date and Time inputs into your model's LocalDateTime
+            Long doctorId = Long.parseLong(request.getParameter("doctor_id"));
             LocalDate date = LocalDate.parse(request.getParameter("appointment_date"));
             LocalTime time = LocalTime.parse(request.getParameter("appointment_time"));
-            appt.setAppointmentDateTime(LocalDateTime.of(date, time));
+            LocalDateTime dateTime = LocalDateTime.of(date, time);
 
-            // Parse Enums for Status AND Type
+            Appointment appt = new Appointment();
+            appt.setPatient(patientService.getPatientById(Long.parseLong(request.getParameter("patient_id"))));
+            appt.setDoctor(doctorService.getDoctorById(doctorId));
+            appt.setAppointmentDateTime(dateTime);
             appt.setStatus(AppointmentStatus.valueOf(request.getParameter("status").toUpperCase()));
-            appt.setType(AppointmentType.valueOf(request.getParameter("type").toUpperCase())); // ADDED TYPE PARSING
-
-            // Map 'notes' to 'motif'
+            appt.setType(AppointmentType.valueOf(request.getParameter("type").toUpperCase()));
             appt.setMotif(request.getParameter("notes"));
 
-            appointmentDAO.save(appt);
+            appointmentService.scheduleAppointment(appt);
+
             request.getSession().setAttribute("successMessage", "Appointment scheduled successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/appointments");
+
         } catch (Exception e) {
-            request.setAttribute("errorMessage", e.getMessage());
+            // Unpack DB exceptions if it bypasses our logic
+            Throwable rootCause = e;
+            while (rootCause.getCause() != null && rootCause != rootCause.getCause()) {
+                rootCause = rootCause.getCause();
+            }
+
+            request.setAttribute("errorMessage", rootCause.getMessage());
             doGet(request, response);
         }
     }

@@ -1,6 +1,6 @@
 package com.clinicmanager.controller.appointment;
 
-import com.clinicmanager.dao.AppointmentDAO;
+import com.clinicmanager.service.AppointmentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,13 +10,13 @@ import java.io.IOException;
 
 @WebServlet(name = "DeleteAppointmentServlet", urlPatterns = "/admin/appointments/delete")
 public class DeleteAppointmentServlet extends HttpServlet {
-    private final AppointmentDAO appointmentDAO = new AppointmentDAO();
+    private final AppointmentService appointmentService = new AppointmentService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            appointmentDAO.delete(id);
+            appointmentService.delete(id);
             request.getSession().setAttribute("successMessage", "Appointment cancelled and deleted successfully.");
         } catch (Exception e) {
             request.getSession().setAttribute("errorMessage", e.getMessage());

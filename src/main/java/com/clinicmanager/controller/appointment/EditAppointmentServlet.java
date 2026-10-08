@@ -1,8 +1,8 @@
 package com.clinicmanager.controller.appointment;
 
-import com.clinicmanager.dao.AppointmentDAO;
-import com.clinicmanager.dao.DoctorDAO;
-import com.clinicmanager.dao.PatientDAO;
+import com.clinicmanager.service.AppointmentService;
+import com.clinicmanager.service.DoctorService;
+import com.clinicmanager.service.PatientService;
 import com.clinicmanager.model.Appointment;
 import com.clinicmanager.model.enums.AppointmentStatus;
 import jakarta.servlet.ServletException;
@@ -18,20 +18,20 @@ import java.time.LocalTime;
 
 @WebServlet(name = "EditAppointmentServlet", urlPatterns = "/admin/appointments/edit")
 public class EditAppointmentServlet extends HttpServlet {
-    private final AppointmentDAO appointmentDAO = new AppointmentDAO();
-    private final DoctorDAO doctorDAO = new DoctorDAO();
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final AppointmentService appointmentService = new AppointmentService();
+    private final DoctorService doctorService = new DoctorService();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Appointment appt = appointmentDAO.getAppointmentById(id);
+            Appointment appt = appointmentService.getAppointmentById(id);
             if (appt == null) throw new Exception("Appointment not found.");
 
             request.setAttribute("appointment", appt);
-            request.setAttribute("doctors", doctorDAO.getAllDoctors());
-            request.setAttribute("patients", patientDAO.getAllPatients());
+            request.setAttribute("doctors", doctorService.getAllDoctors());
+            request.setAttribute("patients", patientService.getAllPatients());
             request.getRequestDispatcher("/WEB-INF/views/admin/appointments/edit-appointment.jsp").forward(request, response);
         } catch (Exception e) {
             request.getSession().setAttribute("errorMessage", "Unable to load appointment for editing.");
@@ -43,10 +43,10 @@ public class EditAppointmentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Appointment appt = appointmentDAO.getAppointmentById(id);
+            Appointment appt = appointmentService.getAppointmentById(id);
 
-            appt.setPatient(patientDAO.getPatientById(Long.parseLong(request.getParameter("patient_id"))));
-            appt.setDoctor(doctorDAO.getDoctorById(Long.parseLong(request.getParameter("doctor_id"))));
+            appt.setPatient(patientService.getPatientById(Long.parseLong(request.getParameter("patient_id"))));
+            appt.setDoctor(doctorService.getDoctorById(Long.parseLong(request.getParameter("doctor_id"))));
 
             // Combine HTML Date and Time inputs into your model's LocalDateTime
             LocalDate date = LocalDate.parse(request.getParameter("appointment_date"));
@@ -57,7 +57,7 @@ public class EditAppointmentServlet extends HttpServlet {
             appt.setStatus(AppointmentStatus.valueOf(request.getParameter("status").toUpperCase()));
             appt.setMotif(request.getParameter("notes"));
 
-            appointmentDAO.update(appt);
+            appointmentService.update(appt);
             request.getSession().setAttribute("successMessage", "Appointment updated successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/appointments");
         } catch (Exception e) {

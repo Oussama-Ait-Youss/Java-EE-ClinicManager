@@ -1,8 +1,8 @@
 package com.clinicmanager.controller.patient;
 
-import com.clinicmanager.dao.PatientDAO;
 import com.clinicmanager.model.Patient;
 import com.clinicmanager.model.enums.Gender;
+import com.clinicmanager.service.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,13 +12,13 @@ import java.io.IOException;
 
 @WebServlet(name = "EditPatientServlet", urlPatterns = "/admin/patients/edit")
 public class EditPatientServlet extends HttpServlet {
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Patient patient = patientDAO.getPatientById(id);
+            Patient patient = patientService.getPatientById(id);
             if (patient == null) throw new Exception("Patient not found.");
 
             request.setAttribute("patient", patient);
@@ -33,7 +33,7 @@ public class EditPatientServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Patient patient = patientDAO.getPatientById(id);
+            Patient patient = patientService.getPatientById(id);
 
             patient.setFirst_name(request.getParameter("first_name"));
             patient.setLast_name(request.getParameter("last_name"));
@@ -47,7 +47,7 @@ public class EditPatientServlet extends HttpServlet {
                 patient.setPassword(newPassword); // Add PasswordUtil hashing here if needed
             }
 
-            patientDAO.update(patient);
+            patientService.update(patient);
             request.getSession().setAttribute("successMessage", "Patient profile updated successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/patients");
         } catch (Exception e) {

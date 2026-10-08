@@ -1,6 +1,6 @@
 package com.clinicmanager.controller.patient;
 
-import com.clinicmanager.dao.PatientDAO;
+import com.clinicmanager.service.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,11 +10,11 @@ import java.io.IOException;
 
 @WebServlet(name = "PatientManagementServlet", urlPatterns = "/admin/patients")
 public class PatientManagementServlet extends HttpServlet {
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("patients", patientDAO.getAllPatients());
+        request.setAttribute("patients", patientService.getAllPatients());
         request.getRequestDispatcher("/WEB-INF/views/admin/patients/patients.jsp").forward(request, response);
     }
 }
