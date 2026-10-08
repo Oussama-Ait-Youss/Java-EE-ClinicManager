@@ -102,6 +102,13 @@
 
                 <span>Manage Doctors</span>
             </a>
+            <a href="${pageContext.request.contextPath}/admin/availabilities"
+               class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${activeLink == 'availabilities' ? 'bg-white/10 text-white font-semibold' : 'text-white/70 hover:text-white hover:bg-white/5'}">
+                <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span>Availabilities / Shifts</span>
+            </a>
             <%--    Manage departments        --%>
             <a href="${pageContext.request.contextPath}/admin/departments"
                class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${activeLink == 'departments' ? 'bg-white/10 text-white font-semibold' : 'text-white/70 hover:text-white hover:bg-white/5'}">
