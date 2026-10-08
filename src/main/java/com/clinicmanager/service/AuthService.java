@@ -6,7 +6,7 @@ import com.clinicmanager.exception.AccountInactiveException;
 import com.clinicmanager.exception.InvalidCredentialsException;
 import com.clinicmanager.model.User;
 import com.clinicmanager.repository.UserRepository;
-import com.clinicmanager.repository.ImplRepository.ImplUserRepository;
+import com.clinicmanager.repository.impl.ImplUserRepository;
 import com.clinicmanager.util.PasswordUtil;
 
 import java.util.Optional;

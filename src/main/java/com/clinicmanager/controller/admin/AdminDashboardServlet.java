@@ -1,7 +1,7 @@
 package com.clinicmanager.controller.admin;
 
-import com.clinicmanager.dao.DashboardDAO;
 import com.clinicmanager.dto.UserSessionDTO;
+import com.clinicmanager.service.DashboardService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "AdminDashboardServlet", urlPatterns = "/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
-    private DashboardDAO dashboardDAO = new DashboardDAO();
+    private final DashboardService dashboardService = new DashboardService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -30,17 +30,13 @@ public class AdminDashboardServlet extends HttpServlet {
         }
 
         try {
-            request.setAttribute("totalDoctors", dashboardDAO.getTotalDoctors());
-            request.setAttribute("totalPatients", dashboardDAO.getTotalPatients());
-            request.setAttribute("totalStaff", dashboardDAO.getTotalStaff());
-            request.setAttribute("todayAppointments", dashboardDAO.getTodayAppointments());
+            request.setAttribute("totalDoctors", dashboardService.getTotalDoctors());
+            request.setAttribute("totalPatients", dashboardService.getTotalPatients());
+            request.setAttribute("totalStaff", dashboardService.getTotalStaff());
+            request.setAttribute("todayAppointments", dashboardService.getTodayAppointments());
         } catch (Exception e) {
             System.err.println("Error fetching dashboard statistics: " + e.getMessage());
-            // Fallback to 0 if the database query fails so the page doesn't crash
-            request.setAttribute("totalDoctors", 0);
-            request.setAttribute("totalPatients", 0);
-            request.setAttribute("totalStaff", 0);
-            request.setAttribute("todayAppointments", 0);
+            request.getSession().setAttribute("errorMessage", e.getMessage());
         }
 
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);

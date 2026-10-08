@@ -1,8 +1,8 @@
 package com.clinicmanager.controller.patient;
 
-import com.clinicmanager.dao.PatientDAO;
 import com.clinicmanager.model.Patient;
 import com.clinicmanager.model.enums.Gender;
+import com.clinicmanager.service.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(name = "AddPatientServlet", urlPatterns = "/admin/patients/add")
 public class AddPatientServlet extends HttpServlet {
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,7 +33,7 @@ public class AddPatientServlet extends HttpServlet {
             // Note: Use your PasswordUtil here to hash if implemented in User/Patient model
             patient.setPassword(request.getParameter("password"));
 
-            patientDAO.save(patient);
+            patientService.save(patient);
             request.getSession().setAttribute("successMessage", "Patient registered successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/patients");
         } catch (Exception e) {

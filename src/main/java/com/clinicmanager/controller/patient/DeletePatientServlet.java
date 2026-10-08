@@ -1,6 +1,6 @@
 package com.clinicmanager.controller.patient;
 
-import com.clinicmanager.dao.PatientDAO;
+import com.clinicmanager.service.PatientService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,13 +10,13 @@ import java.io.IOException;
 
 @WebServlet(name = "DeletePatientServlet", urlPatterns = "/admin/patients/delete")
 public class DeletePatientServlet extends HttpServlet {
-    private final PatientDAO patientDAO = new PatientDAO();
+    private final PatientService patientService = new PatientService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            patientDAO.delete(id);
+            patientService.delete(id);
             request.getSession().setAttribute("successMessage", "Patient deleted successfully.");
         } catch (Exception e) {
             request.getSession().setAttribute("errorMessage", e.getMessage());

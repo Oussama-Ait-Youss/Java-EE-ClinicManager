@@ -1,4 +1,4 @@
-package com.clinicmanager.repository.ImplRepository;
+package com.clinicmanager.repository.impl;
 
 import com.clinicmanager.model.User;
 import com.clinicmanager.repository.UserRepository;

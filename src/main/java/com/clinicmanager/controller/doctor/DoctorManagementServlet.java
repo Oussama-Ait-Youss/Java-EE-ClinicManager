@@ -3,9 +3,9 @@ package com.clinicmanager.controller.doctor;
 import java.io.IOException;
 import java.util.List;
 
-import com.clinicmanager.dao.DoctorDAO;
 import com.clinicmanager.dto.UserSessionDTO;
 import com.clinicmanager.model.Doctor;
+import com.clinicmanager.service.DoctorService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "DoctorManagementServlet", urlPatterns = "/admin/doctors")
 public class DoctorManagementServlet extends HttpServlet {
 
-    private DoctorDAO doctorDAO = new DoctorDAO();
+    private final DoctorService doctorService = new DoctorService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class DoctorManagementServlet extends HttpServlet {
             return;
         }
 
-        List<Doctor> doctors = doctorDAO.getAllDoctors();
+        List<Doctor> doctors = doctorService.getAllDoctors();
         request.setAttribute("doctors", doctors);
 
         request.getRequestDispatcher("/WEB-INF/views/admin/doctors/doctors.jsp").forward(request, response);

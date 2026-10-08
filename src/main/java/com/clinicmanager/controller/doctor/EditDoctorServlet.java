@@ -3,10 +3,10 @@ package com.clinicmanager.controller.doctor;
 import java.io.IOException;
 import java.util.Optional;
 
-import com.clinicmanager.dao.DoctorDAO;
 import com.clinicmanager.dto.UserSessionDTO;
 import com.clinicmanager.model.Doctor;
 import com.clinicmanager.model.enums.Gender;
+import com.clinicmanager.service.DoctorService;
 import com.clinicmanager.util.PasswordUtil;
 
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "EditDoctorServlet", urlPatterns = "/admin/doctors/edit")
 public class EditDoctorServlet extends HttpServlet {
 
-    private DoctorDAO doctorDAO = new DoctorDAO();
+    private final DoctorService doctorService = new DoctorService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,7 +37,7 @@ public class EditDoctorServlet extends HttpServlet {
 
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Doctor doctor = doctorDAO.getDoctorById(id);
+            Doctor doctor = doctorService.getDoctorById(id);
 
             if (doctor == null) {
                 request.getSession().setAttribute("errorMessage", "Doctor not found.");
@@ -46,8 +46,8 @@ public class EditDoctorServlet extends HttpServlet {
             }
 
             request.setAttribute("doctor", doctor);
-            request.setAttribute("departments", doctorDAO.getAllDepartments());
-            request.setAttribute("specialties", doctorDAO.getAllSpecialties());
+            request.setAttribute("departments", doctorService.getAllDepartments());
+            request.setAttribute("specialties", doctorService.getAllSpecialties());
 
             request.getRequestDispatcher("/WEB-INF/views/admin/doctors/edit-doctor.jsp").forward(request, response);
 
@@ -74,7 +74,7 @@ public class EditDoctorServlet extends HttpServlet {
 
         try {
             // Fetch the existing doctor to retain data we aren't changing (like the old password)
-            Doctor doctor = doctorDAO.getDoctorById(id);
+            Doctor doctor = doctorService.getDoctorById(id);
 
             doctor.setFirst_name(request.getParameter("first_name"));
             doctor.setLast_name(request.getParameter("last_name"));
@@ -87,8 +87,8 @@ public class EditDoctorServlet extends HttpServlet {
 
             Long deptId = Long.parseLong(request.getParameter("department_id"));
             Long specId = Long.parseLong(request.getParameter("specialty_id"));
-            doctor.setDepartment(doctorDAO.getDepartmentById(deptId));
-            doctor.setSpecialty(doctorDAO.getSpecialtyById(specId));
+            doctor.setDepartment(doctorService.getDepartmentById(deptId));
+            doctor.setSpecialty(doctorService.getSpecialtyById(specId));
 
             // Only update the password if the user actually typed a new one
             String newPassword = request.getParameter("password");
@@ -96,7 +96,7 @@ public class EditDoctorServlet extends HttpServlet {
                 doctor.setPassword(PasswordUtil.hashPassword(Optional.of(newPassword)));
             }
 
-            doctorDAO.update(doctor);
+            doctorService.update(doctor);
             request.getSession().setAttribute("successMessage", "Doctor profile updated successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/doctors");
 

@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import com.clinicmanager.dao.DoctorDAO;
 import com.clinicmanager.dto.UserSessionDTO;
 import com.clinicmanager.model.Department;
 import com.clinicmanager.model.Doctor;
 import com.clinicmanager.model.Specialty;
 import com.clinicmanager.model.enums.Gender;
+import com.clinicmanager.service.DoctorService;
 import com.clinicmanager.util.PasswordUtil;
 
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "AddDoctorServlet", urlPatterns = "/admin/doctors/add")
 public class AddDoctorServlet extends HttpServlet {
 
-    private DoctorDAO doctorDAO = new DoctorDAO();
+    private final DoctorService doctorService = new DoctorService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,8 +38,8 @@ public class AddDoctorServlet extends HttpServlet {
             return;
         }
 
-        List<Department> departments = doctorDAO.getAllDepartments();
-        List<Specialty> specialties = doctorDAO.getAllSpecialties();
+        List<Department> departments = doctorService.getAllDepartments();
+        List<Specialty> specialties = doctorService.getAllSpecialties();
 
         request.setAttribute("departments", departments);
         request.setAttribute("specialties", specialties);
@@ -77,8 +77,8 @@ public class AddDoctorServlet extends HttpServlet {
             Long deptId = Long.parseLong(request.getParameter("department_id"));
             Long specId = Long.parseLong(request.getParameter("specialty_id"));
 
-            Department dept = doctorDAO.getDepartmentById(deptId);
-            Specialty spec = doctorDAO.getSpecialtyById(specId);
+            Department dept = doctorService.getDepartmentById(deptId);
+            Specialty spec = doctorService.getSpecialtyById(specId);
 
             doctor.setDepartment(dept);
             doctor.setSpecialty(spec);
@@ -87,15 +87,15 @@ public class AddDoctorServlet extends HttpServlet {
             doctor.setPassword(PasswordUtil.hashPassword(Optional.of(rawPassword)));
             doctor.setActive(true);
 
-            doctorDAO.save(doctor);
+            doctorService.save(doctor);
             request.getSession().setAttribute("successMessage", "Doctor " + doctor.getTitle() + " " + doctor.getLast_name() + " was successfully registered.");
             response.sendRedirect(request.getContextPath() + "/admin/doctors");
 
         } catch (Exception e) {
             request.setAttribute("errorMessage", e.getMessage());
 
-            request.setAttribute("departments", doctorDAO.getAllDepartments());
-            request.setAttribute("specialties", doctorDAO.getAllSpecialties());
+            request.setAttribute("departments", doctorService.getAllDepartments());
+            request.setAttribute("specialties", doctorService.getAllSpecialties());
             request.getRequestDispatcher("/WEB-INF/views/admin/doctors/add-doctor.jsp").forward(request, response);
         }
     }

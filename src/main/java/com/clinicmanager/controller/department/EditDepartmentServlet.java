@@ -1,7 +1,7 @@
 package com.clinicmanager.controller.department;
 
-import com.clinicmanager.dao.DepartmentDAO;
 import com.clinicmanager.model.Department;
+import com.clinicmanager.service.DepartmentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,13 +11,13 @@ import java.io.IOException;
 
 @WebServlet(name = "EditDepartmentServlet", urlPatterns = "/admin/departments/edit")
 public class EditDepartmentServlet extends HttpServlet {
-    private final DepartmentDAO departmentDAO = new DepartmentDAO();
+    private final DepartmentService departmentService = new DepartmentService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Department dept = departmentDAO.getDepartmentById(id);
+            Department dept = departmentService.getDepartmentById(id);
             if (dept == null) throw new Exception("Department not found.");
 
             request.setAttribute("department", dept);
@@ -32,11 +32,11 @@ public class EditDepartmentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Long id = Long.parseLong(request.getParameter("id"));
-            Department dept = departmentDAO.getDepartmentById(id);
+            Department dept = departmentService.getDepartmentById(id);
             dept.setName(request.getParameter("name"));
             dept.setDescription(request.getParameter("description"));
 
-            departmentDAO.update(dept);
+            departmentService.update(dept);
             request.getSession().setAttribute("successMessage", "Department updated successfully.");
             response.sendRedirect(request.getContextPath() + "/admin/departments");
         } catch (Exception e) {
