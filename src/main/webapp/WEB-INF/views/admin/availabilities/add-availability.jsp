@@ -52,7 +52,7 @@
             <select id="doctorId" name="doctorId" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
               <option value="">Select a doctor</option>
               <c:forEach var="doctor" items="${doctors}">
-                <option value="${doctor.id}" ${availability.doctor.id == doctor.id ? 'selected' : ''}>
+                <option value="${doctor.id}" ${param.doctorId == doctor.id ? 'selected' : ''}>
                   <c:out value="${doctor.title} ${doctor.first_name} ${doctor.last_name}"/>
                 </option>
               </c:forEach>
@@ -60,34 +60,43 @@
           </div>
 
           <div>
-            <label for="dayOfWeek" class="block text-sm font-semibold text-slate-700 mb-2">Day of Week</label>
-            <select id="dayOfWeek" name="dayOfWeek" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
-              <option value="">Select a day</option>
+            <p class="block text-sm font-semibold text-slate-700 mb-2">Days of Week</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <c:forEach var="day" items="${daysOfWeek}">
-                <option value="${day}" ${availability.dayOfWeek == day ? 'selected' : ''}><c:out value="${day}"/></option>
+                <c:set var="dayValue" value="${day}"/>
+                <c:set var="daySelected" value="false"/>
+                <c:forEach var="selectedDay" items="${selectedDays}">
+                  <c:if test="${selectedDay == dayValue}">
+                    <c:set var="daySelected" value="true"/>
+                  </c:if>
+                </c:forEach>
+                <label class="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 cursor-pointer hover:bg-white hover:border-brand-300 transition-all">
+                  <input type="checkbox" name="daysOfWeek" value="${day}" ${daySelected ? 'checked' : ''} class="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+                  <span class="text-sm font-medium text-slate-700"><c:out value="${day}"/></span>
+                </label>
               </c:forEach>
-            </select>
+            </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label for="startTime" class="block text-sm font-semibold text-slate-700 mb-2">Start Time</label>
-              <input id="startTime" type="time" name="startTime" value="${availability.startTime}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
+              <input id="startTime" type="time" name="startTime" value="${param.startTime}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
             </div>
             <div>
               <label for="endTime" class="block text-sm font-semibold text-slate-700 mb-2">End Time</label>
-              <input id="endTime" type="time" name="endTime" value="${availability.endTime}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
+              <input id="endTime" type="time" name="endTime" value="${param.endTime}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label for="validityStart" class="block text-sm font-semibold text-slate-700 mb-2">Validity Start</label>
-              <input id="validityStart" type="date" name="validityStart" value="${availability.validityStart}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
+              <input id="validityStart" type="date" name="validityStart" value="${param.validityStart}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
             </div>
             <div>
               <label for="validityEnd" class="block text-sm font-semibold text-slate-700 mb-2">Validity End</label>
-              <input id="validityEnd" type="date" name="validityEnd" value="${availability.validityEnd}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
+              <input id="validityEnd" type="date" name="validityEnd" value="${param.validityEnd}" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
             </div>
           </div>
 
@@ -96,7 +105,7 @@
             <select id="status" name="status" required class="form-input w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all outline-none">
               <option value="">Select a status</option>
               <c:forEach var="availabilityStatus" items="${availabilityStatuses}">
-                <option value="${availabilityStatus}" ${availability.status == availabilityStatus ? 'selected' : ''}><c:out value="${availabilityStatus}"/></option>
+                <option value="${availabilityStatus}" ${param.status == availabilityStatus ? 'selected' : ''}><c:out value="${availabilityStatus}"/></option>
               </c:forEach>
             </select>
           </div>
