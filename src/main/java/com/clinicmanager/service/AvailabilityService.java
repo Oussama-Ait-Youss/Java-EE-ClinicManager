@@ -2,13 +2,20 @@ package com.clinicmanager.service;
 
 import com.clinicmanager.exception.ServiceException;
 import com.clinicmanager.model.Availability;
+import com.clinicmanager.model.Doctor;
+import com.clinicmanager.model.enums.AvailabilityStatus;
 import com.clinicmanager.repository.AvailabilityRepository;
 import com.clinicmanager.repository.impl.AvailabilityRepositoryImpl;
 import com.clinicmanager.util.JPAUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 public class AvailabilityService {
@@ -33,6 +40,57 @@ public class AvailabilityService {
             repository.save(availability);
             return null;
         });
+    }
+
+    public void createBatchAvailabilities(Long doctorId, String[] daysOfWeek, LocalTime startTime,
+                                          LocalTime endTime, LocalDate validityStart, LocalDate validityEnd,
+                                          AvailabilityStatus status) {
+        EntityManager em = JPAUtil.getEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            if (doctorId == null || daysOfWeek == null || daysOfWeek.length == 0
+                    || startTime == null || endTime == null || validityStart == null
+                    || validityEnd == null || status == null) {
+                throw new ServiceException("All availability fields are required, and at least one day must be selected.");
+            }
+            if (!endTime.isAfter(startTime)) {
+                throw new ServiceException("End time must be later than start time.");
+            }
+            if (validityEnd.isBefore(validityStart)) {
+                throw new ServiceException("Validity end date must not be before the start date.");
+            }
+
+            Set<String> uniqueDays = new HashSet<>();
+            for (String day : daysOfWeek) {
+                if (day == null || !uniqueDays.add(day)) {
+                    throw new ServiceException("Selected days must be valid and unique.");
+                }
+                DayOfWeek.valueOf(day);
+            }
+
+            Doctor doctor = em.getReference(Doctor.class, doctorId);
+            for (String selectedDay : daysOfWeek) {
+                Availability availability = new Availability();
+                availability.setDoctor(doctor);
+                availability.setDayOfWeek(DayOfWeek.valueOf(selectedDay));
+                availability.setStartTime(startTime);
+                availability.setEndTime(endTime);
+                availability.setValidityStart(validityStart);
+                availability.setValidityEnd(validityEnd);
+                availability.setStatus(status);
+                em.persist(availability);
+            }
+            tx.commit();
+        } catch (ServiceException e) {
+            rollback(tx, e);
+            throw e;
+        } catch (RuntimeException e) {
+            rollback(tx, e);
+            throw new ServiceException("Could not create doctor availabilities.", e);
+        } finally {
+            em.close();
+        }
     }
 
     public void update(Availability availability) {
